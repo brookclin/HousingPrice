@@ -4,6 +4,10 @@ import re
 f = open("housingdata.json", 'r')
 raw_dict = json.load(f)
 f.close()
+
+f = open("walkv3.json", 'r')
+walk_miss = json.load(f)
+f.close()
 data_dict = {}
 
 for line in raw_dict:
@@ -48,6 +52,13 @@ for line in raw_dict:
 
     if line['type']:
         data_dict[url]['type'] = line['type'][0]
+
+for line in walk_miss:
+    url = line['url'][0].split('/')[-1]
+    url = re.findall(r"(.*)%0A", url)[0]
+
+    if data_dict.has_key(url):
+        data_dict[url]['score'] = line['score']
 
 
 with open('result.json', 'w') as fp:

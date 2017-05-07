@@ -1,0 +1,13 @@
+[INFO  - 2017-05-01T21:26:34.549Z] GhostDriver - Main - running on port 37511
+[INFO  - 2017-05-01T21:26:35.497Z] Session [da9d43a0-2eb4-11e7-ae59-6b29ae9a3ae9] - page.settings - {"XSSAuditingEnabled":false,"javascriptCanCloseWindows":true,"javascriptCanOpenWindows":true,"javascriptEnabled":true,"loadImages":true,"localToRemoteUrlAccessEnabled":false,"userAgent":"Mozilla/5.0 (Unknown; Linux x86_64) AppleWebKit/538.1 (KHTML, like Gecko) PhantomJS/2.1.1 Safari/538.1","webSecurityEnabled":true}
+[INFO  - 2017-05-01T21:26:35.497Z] Session [da9d43a0-2eb4-11e7-ae59-6b29ae9a3ae9] - page.customHeaders:  - {}
+[INFO  - 2017-05-01T21:26:35.500Z] Session [da9d43a0-2eb4-11e7-ae59-6b29ae9a3ae9] - Session.negotiatedCapabilities - {"browserName":"phantomjs","version":"2.1.1","driverName":"ghostdriver","driverVersion":"1.2.0","platform":"linux-unknown-64bit","javascriptEnabled":true,"takesScreenshot":true,"handlesAlerts":false,"databaseEnabled":false,"locationContextEnabled":false,"applicationCacheEnabled":false,"browserConnectionEnabled":false,"cssSelectorsEnabled":true,"webStorageEnabled":false,"rotatable":false,"acceptSslCerts":false,"nativeEvents":true,"proxy":{"proxyType":"direct"}}
+[INFO  - 2017-05-01T21:26:35.500Z] SessionManagerReqHand - _postNewSessionCommand - New Session Created: da9d43a0-2eb4-11e7-ae59-6b29ae9a3ae9
+[ERROR - 2017-05-01T21:26:44.811Z] Session [da9d43a0-2eb4-11e7-ae59-6b29ae9a3ae9] - page.onError - msg: Unhandled error found. Script error.  0 
+
+  phantomjs://platform/console++.js:263 in error
+[ERROR - 2017-05-01T21:26:44.812Z] Session [da9d43a0-2eb4-11e7-ae59-6b29ae9a3ae9] - page.onError - stack:
+  onerror (https://www.zillow.com/homedetails/8311-Chelsea-Ln-Canoga-Park-CA-91304/55821849_zpid/:9)
+
+  phantomjs://platform/console++.js:263 in error
+onsole++.js:263 in error

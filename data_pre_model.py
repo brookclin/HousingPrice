@@ -11,7 +11,7 @@ from scipy.stats import skew
 
 
 def rmse_cv(model):
-    rmse= np.sqrt(-cross_val_score(model, X_train, y_train, scoring="neg_mean_squared_error", cv = 5))
+    rmse= np.sqrt(-cross_val_score(model, X_train, y_train, scoring="neg_mean_squared_error", cv=5))
     return rmse
 
 # read in data, transform data types, clean nulls
@@ -47,15 +47,16 @@ cleaned_data = pd.get_dummies(cleaned_data)
 
 # split data set
 X_train, X_test, y_train, y_test = \
-    train_test_split(cleaned_data[cleaned_data.columns.drop('price')], cleaned_data['price'],test_size=0.2, random_state=0)
+    train_test_split(cleaned_data[cleaned_data.columns.drop('price')],
+                     cleaned_data['price'],test_size=0.2, random_state=0)
 
 # ridge
 # alpha - a regularization parameter that measures how flexible our model is
 # the higher the regularization the less prone our model will be to overfit
 alphas = [0.05, 0.1, 0.3, 1, 3, 5, 10, 15, 30, 50, 75]
-cv_ridge = [rmse_cv(Ridge(alpha = alpha)).mean()
+cv_ridge = [rmse_cv(Ridge(alpha=alpha)).mean()
             for alpha in alphas]
-cv_ridge = pd.Series(cv_ridge, index = alphas)
+cv_ridge = pd.Series(cv_ridge, index=alphas)
 cv_ridge.plot()
 plt.xlabel("alpha")
 plt.ylabel("rmse")
@@ -65,24 +66,16 @@ cv_ridge.min()
 # the alphas in Lasso CV are really the inverse or the alphas in Ridge
 model_lasso = LassoCV(alphas=[1, 0.1, 0.001, 0.0005]).fit(X_train, y_train)
 rmse_cv(model_lasso).mean()
-coef = pd.Series(model_lasso.coef_, index = X_train.columns)
-# feature selection: setting coefficients of unimportant attributes to 0
-print("Lasso picked " + str(sum(coef != 0)) + " variables and eliminated the other "
-      + str(sum(coef == 0)) + " variables")
-
-# residual plot
-matplotlib.rcParams['figure.figsize'] = (6.0, 6.0)
-predictions = pd.DataFrame({"preds": model_lasso.predict(X_train), "true": y_train})
-predictions["residuals"] = predictions["true"] - predictions["preds"]
-predictions.plot(x="preds", y="residuals", kind="scatter")
+coefficients = pd.Series(model_lasso.coef_, index = X_train.columns)
 
 # xgboost
-dtrain = xgb.DMatrix(X_train, label=y_train)
-dtest = xgb.DMatrix(X_test)
-
+d_train = xgb.DMatrix(X_train, label=y_train)
+d_test = xgb.DMatrix(X_test)
 params = {"max_depth": 2, "eta": 0.1}
 # the params were tuned using xgb.cv
-model = xgb.cv(params, dtrain,  num_boost_round=500, early_stopping_rounds=100)
+model = xgb.cv(params, d_train,  num_boost_round=500, early_stopping_rounds=100)
 model.loc[30:,["test-rmse-mean", "train-rmse-mean"]].plot()
 model_xgb = xgb.XGBRegressor(n_estimators=360, max_depth=2, learning_rate=0.1)
 model_xgb.fit(X_train, y_train)
+
+final = pd.DataFrame([np.expm1(model_xgb.predict(X_test)), np.expm1(y_test)]).transpose()
